@@ -16,7 +16,15 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+      tasdf:true
+    },
+
+    emberPouch:  {
+      localDb: 'test',
+      remoteDb: 'http://localhost:5984/test',
+      authHost: 'http://localhost:5984'
+    },
+    tester: false
   };
 
   if (environment === 'development') {
