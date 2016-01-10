@@ -1,6 +1,8 @@
 # ember-simple-auth-pouch
 
-This README outlines the details of collaborating on this Ember addon.
+This thang aint even close to being ready for use...just hold your horses.
+
+That being said I have been able to use it to auth to couchdb server :-)
 
 ## Installation
 
