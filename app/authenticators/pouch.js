@@ -1,1 +1,1 @@
-export { default } from 'ember-cli-simple-auth-pouch/authenticators/pouch';
+export { default } from 'ember-simple-auth-pouch/authenticators/pouch';

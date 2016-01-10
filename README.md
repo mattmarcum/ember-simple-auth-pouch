@@ -1,4 +1,4 @@
-# Ember-cli-simple-auth-pouch
+# ember-simple-auth-pouch
 
 This README outlines the details of collaborating on this Ember addon.
 

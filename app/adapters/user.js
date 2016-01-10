@@ -1,1 +1,1 @@
-export { default } from 'ember-cli-simple-auth-pouch/adapters/user';
+export { default } from 'ember-simple-auth-pouch/adapters/user';

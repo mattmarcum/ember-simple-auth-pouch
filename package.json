@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-simple-auth-pouch",
+  "name": "ember-simple-auth-pouch",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {

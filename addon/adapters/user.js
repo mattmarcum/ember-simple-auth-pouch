@@ -39,7 +39,7 @@ export default DS.RESTAdapter.extend({
   },
   findQuery(){
     throw new Error(
-      "findQuery not yet supported by ember-cli-simple-auth-pouch"
+      "findQuery not yet supported by ember-simple-auth-pouch"
     );
   }
 });
