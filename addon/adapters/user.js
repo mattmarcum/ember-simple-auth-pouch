@@ -1,20 +1,22 @@
+import { Adapter } from 'ember-pouch';
 import PouchDB from 'pouchdb';
 import Ember from 'ember';
-import DS from 'ember-data';
+const { getOwner } = Ember;
+//import DS from 'ember-data';
 
 const { assert, isEmpty } = Ember;
 
-export default DS.RESTAdapter.extend({
+export default Adapter.extend({
   init() {
     this._super(...arguments);
 
-    let config = this.container.lookupFactory('config:environment');
+    let config = getOwner(this).resolveRegistration('config:environment');
     let authHost = config.emberPouch.authHost;
     let userDoc = '_users';
-    let secureRegex = /https/;
-
+    
     assert('config.emberPouch.authHost must be set in your config/environment.js file', !isEmpty(authHost));
-    //assert('Your remote db should be secure!', secureRegex.test(authHost));
+    //let secureRegex = /https/;
+	//assert('Your remote db should be secure!', secureRegex.test(authHost));
 
     let authDb = authHost+'/'+userDoc;
 
@@ -29,10 +31,23 @@ export default DS.RESTAdapter.extend({
   },
 
   findRecord(store, type, id){
-    this.get('db').getUser
+    return this.get('db').getUser(id).then(function(data) {
+    	console.log(...arguments);
+		data.id = data._id;
+		data.rev = data._rev;
+		delete data._id;
+		delete data._rev;
+		return {user: data};
+    });
   },
   createRecord(){},
-  updateRecord(){},
+  updateRecord(store, type, snapshot){
+  	let id = snapshot.id.substr("org.couchdb.user:".length);
+  	let meta = snapshot.record.toJSON();
+  	delete meta.rev;
+  	delete meta.name;
+  	return this.get('db').putUser(id, {metadata: meta});
+  },
   deleteRecord(){},
   findAll(){
 

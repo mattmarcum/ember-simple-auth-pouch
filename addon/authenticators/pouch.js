@@ -17,7 +17,7 @@ export default Base.extend({
   },
 
   restore(data) {
-debugger;
+//debugger;
   },
 
   authenticate(username, password) {
