@@ -17,7 +17,7 @@ export default Base.extend({
   },
 
   restore(data) {
-//debugger;
+  	return this.db.getUser(data.name).then(function() { return data; });
   },
 
   authenticate(username, password) {
