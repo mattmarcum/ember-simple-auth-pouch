@@ -18,7 +18,7 @@ export default Adapter.extend({
     //let secureRegex = /https/;
 	//assert('Your remote db should be secure!', secureRegex.test(authHost));
 
-    let authDb = authHost+'/'+userDoc;
+    let authDb = authHost;//+'/'+userDoc;
 
     let db = new PouchDB(authDb, {skipSetup: true});
     if(config.emberPouch.syncUsers) {
