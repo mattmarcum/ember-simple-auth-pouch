@@ -21,7 +21,13 @@ export default Base.extend({
   },
 
   authenticate(username, password) {
-    return this.db.login(username, password);
+    return this.db.login(username, password, {
+		ajax: {
+			headers: {
+			  'X-Hello': 'World'
+			}
+		}
+	});
   },
 
   invalidate(data) {
