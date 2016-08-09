@@ -32,7 +32,6 @@ export default Adapter.extend({
 
   findRecord(store, type, id){
     return this.get('db').getUser(id).then(function(data) {
-    	console.log(...arguments);
 		data.id = data._id;
 		data.rev = data._rev;
 		delete data._id;
