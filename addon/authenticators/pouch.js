@@ -17,11 +17,17 @@ export default Base.extend({
   },
 
   restore(data) {
-debugger;
+  	return this.db.getUser(data.name).then(function() { return data; });
   },
 
   authenticate(username, password) {
-    return this.db.login(username, password);
+    return this.db.login(username, password, {
+		ajax: {
+			headers: {
+			  'X-Hello': 'World'
+			}
+		}
+	});
   },
 
   invalidate(data) {
