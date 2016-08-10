@@ -1,15 +1,17 @@
 import Base from 'ember-simple-auth/authenticators/base';
+import Ember from 'ember';
+const { getOwner } = Ember;
 
 export default Base.extend({
   init() {
     this._super(...arguments);
 
-    let config = this.container.lookupFactory('config:environment');
+    let config = getOwner(this).resolveRegistration('config:environment');
 
     //let the user override the default adapter
     let pouchAdapterName = config.emberPouch.authAdapter || 'user';
 
-    let pouchAdapter = this.container.lookup(`adapter:${pouchAdapterName}`);
+    let pouchAdapter = getOwner(this).lookup(`adapter:${pouchAdapterName}`);
 
     Ember.assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
 
@@ -30,7 +32,7 @@ export default Base.extend({
 	});
   },
 
-  invalidate(data) {
+  invalidate() {
     return this.db.logout();
   }
 });
