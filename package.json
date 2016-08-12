@@ -44,7 +44,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
-    "ember-simple-auth": "1.0.1",
+    "ember-simple-auth": "1.1.0",
     "ember-pouch": "^3.0.0"
   },
   "ember-addon": {
