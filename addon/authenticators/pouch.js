@@ -3,6 +3,8 @@ import Ember from 'ember';
 const { getOwner } = Ember;
 
 export default Base.extend({
+  store: Ember.inject.service(),
+  
   init() {
     this._super(...arguments);
 
@@ -11,7 +13,7 @@ export default Base.extend({
     //let the user override the default adapter
     let pouchAdapterName = config.emberPouch.authAdapter || 'user';
 
-    let pouchAdapter = getOwner(this).lookup(`adapter:${pouchAdapterName}`);
+    let pouchAdapter = this.get('store').adapterFor(pouchAdapterName);
 
     Ember.assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
 
@@ -19,16 +21,24 @@ export default Base.extend({
   },
 
   restore(data) {
-  	return this.db.getUser(data.name).then(function() { return data; });
+  	let self = this;
+  	return this.db.getUser(data.name).then(function() {
+  		self.db.emit('loggedin');
+  		return data;
+  	});
   },
 
   authenticate(username, password) {
+  	let self = this;
     return this.db.login(username, password, {
 		ajax: {
 			headers: {
 			  'X-Hello': 'World'
 			}
 		}
+	}).then(function(data) {
+		self.db.emit('loggedin');
+		return data;
 	});
   },
 
