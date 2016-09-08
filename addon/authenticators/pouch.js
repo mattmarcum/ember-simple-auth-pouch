@@ -13,7 +13,7 @@ export default Base.extend({
     let config = getOwner(this).resolveRegistration('config:environment');
 
     //let the user override the default adapter
-    let pouchAdapterName = config.authAdapter || 'user';
+    let pouchAdapterName = config.authAdapter || 'application';
     if (config.pouchDb && config.pouchDb._fixChromeLoginBug) {//not needed for cloudant
     	this.loginOpts = {
 			ajax: {
