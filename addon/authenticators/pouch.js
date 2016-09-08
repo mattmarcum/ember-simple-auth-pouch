@@ -50,8 +50,10 @@ export default Base.extend({
   authenticate(username, password) {
   	let self = this;
     return this.db.login(username, password, this.loginOpts).then(function(data) {
-		self.db.emit('loggedin');
-		return data;
+    	return self.db.getSession().then(function(resp) {
+    		self.db.emit('loggedin');
+    		return resp.userCtx;
+    	});
 	});
   },
 
