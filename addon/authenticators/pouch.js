@@ -4,31 +4,24 @@ const { getOwner } = Ember;
 
 export default Base.extend({
   store: Ember.inject.service(),
-  
-  loginOpts: {},
-  
+    
   init() {
     this._super(...arguments);
 
-    let config = getOwner(this).resolveRegistration('config:environment');
+    this.db = this.getDb();
+  },
+  
+  getDb() {
+  	let config = getOwner(this).resolveRegistration('config:environment');
 
     //let the user override the default adapter
     let pouchAdapterName = config.authAdapter || 'application';
-    if (config.pouchDb && config.pouchDb._fixChromeLoginBug) {//not needed for cloudant
-    	this.loginOpts = {
-			ajax: {
-				headers: {
-				  'X-Hello': 'World'
-				}
-			}
-		};
-    }
 
     let pouchAdapter = this.get('store').adapterFor(pouchAdapterName);
 
     Ember.assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
-
-    this.db = pouchAdapter.db;
+    
+  	return pouchAdapter.db;
   },
 
   restore(data) {
@@ -49,7 +42,7 @@ export default Base.extend({
 
   authenticate(username, password) {
   	let self = this;
-    return this.db.login(username, password, this.loginOpts).then(function(data) {
+    return this.db.login(username, password).then(function() {
     	return self.db.getSession().then(function(resp) {
     		self.db.emit('loggedin');
     		return resp.userCtx;
