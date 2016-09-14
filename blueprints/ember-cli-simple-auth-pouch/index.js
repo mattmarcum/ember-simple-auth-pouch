@@ -13,7 +13,7 @@ module.exports = {
 
   afterInstall: function(options) {
     return this.addBowerPackagesToProject([
-      { name: "pouchdb-authentication", target: "^0.4.1" }
+      { name: "pouchdb-authentication", target: "^0.5.3" }
     ]);
   }
 };
