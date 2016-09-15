@@ -1,6 +1,6 @@
 {
   "name": "ember-simple-auth-pouch",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "Ember Simple Auth Authenticator for Pouch.",
   "directories": {
     "doc": "doc",
@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/martinic/ember-simple-auth-pouch",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -36,7 +36,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-pouch": "3.0.0",
     "ember-resolver": "^2.0.3",
-    "ember-simple-auth": "1.0.1",
+    "ember-simple-auth": "1.1.0",
     "ember-try": "~0.0.8"
   },
   "keywords": [

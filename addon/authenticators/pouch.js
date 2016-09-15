@@ -3,36 +3,55 @@ import Ember from 'ember';
 const { getOwner } = Ember;
 
 export default Base.extend({
+  store: Ember.inject.service(),
+    
   init() {
     this._super(...arguments);
 
-    let config = getOwner(this).resolveRegistration('config:environment');
+    this.db = this.getDb();
+  },
+  
+  getDb() {
+  	let config = getOwner(this).resolveRegistration('config:environment');
 
     //let the user override the default adapter
-    let pouchAdapterName = config.emberPouch.authAdapter || 'user';
+    let pouchAdapterName = config.authAdapter || 'application';
 
-    let pouchAdapter = getOwner(this).lookup(`adapter:${pouchAdapterName}`);
+    let pouchAdapter = this.get('store').adapterFor(pouchAdapterName);
 
     Ember.assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
-
-    this.db = pouchAdapter.db;
+    
+  	return pouchAdapter.db;
   },
 
   restore(data) {
-  	return this.db.getUser(data.name).then(function() { return data; });
+  	let self = this;
+  	return this.db.getSession().then(function(resp) {
+  		let result = null;
+  		if (!Ember.isEmpty(data.name) && resp.userCtx.name === data.name) {
+  			result = data;
+  			self.db.emit('loggedin');
+  		}
+  		else {
+  			result = Ember.RSVP.reject("Not logged in or incorrect user in cookie");
+  		}
+  		
+  		return result;
+  	});
   },
 
   authenticate(username, password) {
-    return this.db.login(username, password, {
-		ajax: {
-			headers: {
-			  'X-Hello': 'World'
-			}
-		}
+  	let self = this;
+    return this.db.login(username, password).then(function() {
+    	return self.db.getSession().then(function(resp) {
+    		self.db.emit('loggedin');
+    		return resp.userCtx;
+    	});
 	});
   },
 
   invalidate() {
+  	this.db.emit('loggedout');
     return this.db.logout();
   }
 });
