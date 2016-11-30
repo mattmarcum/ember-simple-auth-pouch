@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* jshint node: true, -W030 */
 'use strict';
 
 var path = require('path');
@@ -15,7 +15,7 @@ module.exports = {
     if (bowerDeps['pouchdb-authentication']) {this.ui.writeWarnLine('Please remove `pouchdb-authentication` from `bower.json`. For ember-simple-auth-pouch only the NPM package is needed.');}
   },
 
-  treeForVendor: function() {  	
+  treeForVendor: function() {
     return stew.find(path.join(path.dirname(require.resolve('pouchdb-authentication')), '..', 'dist'), {
       destDir: 'pouchdb',
       files: ['pouchdb.authentication.js']
