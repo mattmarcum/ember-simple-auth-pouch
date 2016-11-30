@@ -24,9 +24,5 @@ module.exports = {
 
   included(app) {
     app.import('vendor/pouchdb/pouchdb.authentication.js');
-  },
-  
-  isDevelopingAddon: function() {
-  	return true;
-  },
+  }
 };
