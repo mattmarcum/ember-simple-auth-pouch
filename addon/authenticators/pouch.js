@@ -29,7 +29,7 @@ export default Base.extend({
   	return this.db.getSession().then(function(resp) {
   		let result = null;
   		if (!Ember.isEmpty(data.name) && resp.userCtx.name === data.name) {
-  			result = data;
+  			result = resp.userCtx;
   			self.db.emit('loggedin');
   		}
   		else {
