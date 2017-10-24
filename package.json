@@ -1,6 +1,6 @@
 {
   "name": "ember-simple-auth-pouch",
-  "version": "0.1.0-beta.5",
+  "version": "0.1.0-beta.6",
   "description": "Ember Simple Auth Authenticator for Pouch.",
   "directories": {
     "doc": "doc",
@@ -45,8 +45,10 @@
     "ember-cli-babel": "^5.1.5",
     "ember-simple-auth": "1.1.0",
     "pouchdb-authentication": "^0.5.5",
-    "ember-pouch": "^5.0.0-beta.2",
     "loader.js": "^4.0.1"
+  },
+  "peerDependencies": {
+  	"ember-pouch": "^5.0.0-beta.2"
   },
   "ember-addon": {
     "after": [
