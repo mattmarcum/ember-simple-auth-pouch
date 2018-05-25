@@ -9,14 +9,14 @@ module.exports = {
   testPeerDependency(module) {
     try {
       //TODO: test version
-      let testReq = require(module);
+      require(module);
     } catch(e) {
       throw new Error("'" + module + "' is not found, but required as a peerDependency. Please install it with `npm install --save-dev " + module + "`");
     }
   },
 
   init: function() {
-  	this._super.init && this._super.init.apply(this, arguments);
+    this._super.init && this._super.init.apply(this, arguments);
 
     var bowerDeps = this.project.bowerDependencies();
 
@@ -27,14 +27,14 @@ module.exports = {
   },
 
   treeForVendor: function() {
-    return stew.find(path.join(path.dirname(require.resolve('pouchdb-authentication')), '..', 'lib'), {
+    return stew.find(path.join(path.dirname(require.resolve('pouchdb-authentication')), '..', 'dist'), {
       destDir: 'pouchdb-authentication',
-      files: ['index.browser.js']
+      files: ['pouchdb.authentication.js']
     });
   },
 
   included(app) {
-    app.import('vendor/pouchdb-authentication/index.browser.js');
+    app.import('vendor/pouchdb-authentication/pouchdb.authentication.js');
   },
 
   isDevelopingAddon() {
