@@ -1,4 +1,4 @@
-import config from 'dummy/config/environment';
+// import config from 'dummy/config/environment';
 
 
 export default function() {
