@@ -1,6 +1,6 @@
 import Base from 'ember-simple-auth/authenticators/base';
-import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
+import { inject as service } from '@ember/service';
 import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
 import { reject } from 'rsvp';

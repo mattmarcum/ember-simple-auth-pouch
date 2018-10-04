@@ -40,15 +40,17 @@
     "ember-cli-uglify": "^2.0.0",
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
+    "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-pouch": "^6.0.0",
     "ember-resolver": "^4.0.0",
     "ember-simple-auth": "^1.7.0",
     "ember-source": "~3.1.0",
-    "ember-source-channel-url": "^1.0.1",
+    "ember-source-channel-url": "^1.1.0",
     "ember-try": "^0.2.23",
     "eslint-plugin-ember": "^5.0.0",
-    "eslint-plugin-node": "^6.0.1"
+    "eslint-plugin-node": "^6.0.1",
+    "loader.js": "^4.2.3"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
