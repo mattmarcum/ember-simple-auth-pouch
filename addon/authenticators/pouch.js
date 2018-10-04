@@ -1,30 +1,57 @@
 import Base from 'ember-simple-auth/authenticators/base';
+import { getOwner } from '@ember/application';
+import { inject as service } from '@ember/service';
+import { assert } from '@ember/debug';
+import { isEmpty } from '@ember/utils';
+import { reject } from 'rsvp';
 
 export default Base.extend({
-  init() {
-    this._super(...arguments);
+  store: service(),
 
-    let config = this.container.lookupFactory('config:environment');
+  getDb() {
+    if (this.db) return this.db;
+
+    let config = getOwner(this).resolveRegistration('config:environment');
 
     //let the user override the default adapter
-    let pouchAdapterName = config.emberPouch.authAdapter || 'user';
+    let pouchAdapterName = config.authAdapter || 'application';
 
-    let pouchAdapter = this.container.lookup(`adapter:${pouchAdapterName}`);
+    let pouchAdapter = this.get('store').adapterFor(pouchAdapterName);
 
-    Ember.assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
+    assert('You must have an ember-pouch adapter setup for authentication', pouchAdapter);
 
     this.db = pouchAdapter.db;
+
+    return this.db;
   },
 
   restore(data) {
-debugger;
+    return this.getDb().getSession().then((resp) => {
+      let result = null;
+      if (!isEmpty(data.name) && resp.userCtx.name === data.name) {
+        result = resp.userCtx;
+        this.getDb().emit('loggedin');
+      }
+      else {
+        result = reject("Not logged in or incorrect user in cookie");
+      }
+
+      return result;
+    });
   },
 
   authenticate(username, password) {
-    return this.db.login(username, password);
+    return this.getDb().login(username, password)
+      .then(() => this.getDb().getSession())
+      .then((resp) => {
+        this.getDb().emit('loggedin');
+        return resp.userCtx;
+      });
   },
 
-  invalidate(data) {
-    return this.db.logout();
+  invalidate() {
+    let result = this.getDb().logout();
+    this.getDb().emit('loggedout');
+    return result;
   }
 });
