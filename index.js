@@ -4,7 +4,7 @@ var path = require('path');
 var stew = require('broccoli-stew');
 
 module.exports = {
-  name: 'ember-simple-auth-pouch',
+  name: require('./package').name,
 
   testPeerDependency(module) {
     try {

@@ -1,9 +1,9 @@
 <h2 id="title">Welcome to Ember Simple Auth Pouch</h2>
 <div class="menu">
   {{#if session.isAuthenticated}}
-    <a {{action 'invalidateSession'}}>Logout</a>
+    <a {{action "invalidateSession"}} role="button">Logout</a>
   {{else}}
-    {{#link-to 'login'}}Login{{/link-to}}
+    {{#link-to "login"}}Login{{/link-to}}
   {{/if}}
 </div>
 <div class="main">
