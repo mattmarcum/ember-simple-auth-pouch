@@ -3,6 +3,9 @@ import config from 'dummy/config/environment';
 import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
 import PouchDB from 'pouchdb';
+import auth from 'pouchdb-authentication';
+
+PouchDB.plugin(auth);
 
 function createDb() {
   let localDb = config.emberPouch.localDb;

@@ -43,23 +43,24 @@ Router.map(function() {
 ```js
 // app/controllers/login.js
 import Controller from '@ember/controller';
+import { action } from "@ember/object";
 import { inject as service } from '@ember/service';
-import { get, set } from '@ember/object';
 
-export default Controller.extend({
-  session: service(),
+export default class LoginController extends Controller {
+  @service session;
 
-  actions: {
-    authenticate() {
-      let { identification, password } = this.getProperties('identification', 'password');
-      get(this, 'session').authenticate('authenticator:pouch', identification, password).then(() => {
-        this.setProperties({identification: '', password: ''});
-      }).catch((reason) => {
-        set(this, 'errorMessage', reason.message || reason);
-      });
-    }
+  @action authenticate(event) {
+    const { target } = event;
+    let identification = target.querySelector('#identification').value;
+    let password = target.querySelector('#password').value;
+    event.preventDefault();
+    this.session.authenticate('authenticator:pouch', identification, password).then(() => {
+      this.setProperties({identification: '', password: ''});
+    }).catch((reason) => {
+      this.errorMessage = reason.message || reason;
+    });
   }
-});
+}
 ```
 
 #### Pouch Authenticator
@@ -77,13 +78,12 @@ Setup the pouch authenticator
 // app/authenticators/pouchjs
 import Pouch from 'ember-simple-auth-pouch/authenticators/pouch';
 
-export default Pouch.extend({
+export default class PouchAuthenticator extends Pouch {
   getDb() {
-    let pouchAdapter = this.get('store').adapterFor('application');
-
+    let pouchAdapter = this.store.adapterFor('application');//getOwner(this).lookup(`adapter:${pouchAdapterName}`);
     return pouchAdapter.remoteDb;
   }
-});
+}
 ```
 
 Authenticated routes
@@ -93,9 +93,9 @@ Authenticated routes
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default class SecretRoute extends Route.extend(AuthenticatedRouteMixin) {
   // do your secret model setup here
-});
+}
 ```
 
 ### Using Session service
@@ -105,27 +105,29 @@ Invalidate session when logged out remote:
 ```js
 // app/adapters/application.js
 import config from '../config/environment';
-import PouchDB from 'pouchdb';
-import { Adapter } from 'ember-pouch';
 import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
+import { Adapter } from 'ember-pouch';
+import PouchDB from 'ember-pouch/pouchdb';
+import auth from 'pouchdb-authentication';
 
-export default Adapter.extend({
+PouchDB.plugin(auth);
 
-  session: service(),
-  cloudState: service(),
-  refreshIndicator: service(),
+export default class ApplicationAdapter extends Adapter {
+  @service session;
+  @service cloudState;
+  @service refreshIndicator;
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
     const localDb = config.local_couch || 'blogger';
 
     assert('local_couch must be set', !isEmpty(localDb));
 
     const db = new PouchDB(localDb);
-    this.set('db', db);
+    this.db = db;
 
     // If we have specified a remote CouchDB instance, then replicate our local database to it
     if ( config.remote_couch ) {
@@ -142,34 +144,34 @@ export default Adapter.extend({
       };
 
       db.replicate.from(remoteDb, replicationOptions).on('paused', (err) => {
-        this.get('cloudState').setPull(!err);
+        this.cloudState.setPull(!err);
       });
 
       db.replicate.to(remoteDb, replicationOptions).on('denied', (err) => {
         if (!err.id.startsWith('_design/')) {
           //there was an error pushing, probably logged out outside of this app (couch/cloudant dashboard)
-          this.get('session').invalidate();//this cancels the replication
+          this.session.invalidate();//this cancels the replication
 
           throw({message: "Replication failed. Check login?"});//prevent doc from being marked replicated
         }
       }).on('paused',(err) => {
-        this.get('cloudState').setPush(!err);
+        this.cloudState.setPush(!err);
       }).on('error',() => {
-        this.get('session').invalidate();//mark error by loggin out
+        this.session.invalidate();//mark error by loggin out
       });
 
-      this.set('remoteDb', remoteDb);
+      this.remoteDb = remoteDb;
     }
 
     return this;
   },
 
   unloadedDocumentChanged: function(obj) {
-    this.get('refreshIndicator').kickSpin();
+    this.refreshIndicator.kickSpin();
 
-    let store = this.get('store');
+    let store = this.store;
     let recordTypeName = this.getRecordTypeName(store.modelFor(obj.type));
-    this.get('db').rel.find(recordTypeName, obj.id).then(function(doc) {
+    this.db.rel.find(recordTypeName, obj.id).then(function(doc) {
       store.pushPayload(recordTypeName, doc);
     });
   }
@@ -185,6 +187,7 @@ Tom Dale's blog example using Ember CLI and ember-simple-auth-pouch: [broerse/em
 And of course thanks to all our wonderful contributors, [here](https://github.com/martinic/ember-simple-auth-pouch/graphs/contributors)! and especially [@mattmarcum](https://github.com/mattmarcum) for creating this addon.
 
 ## Changelog
+* **0.2.0** - Switch to import 'pouchdb-authentication' in App
 * **0.1.0** - Release v0.1.0
 * **0.1.0-beta.7** - no .db, but use getDb() everywhere
 * **0.1.0-beta.6** - use getDb()

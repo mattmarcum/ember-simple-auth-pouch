@@ -1,8 +1,5 @@
 'use strict';
 
-var path = require('path');
-var stew = require('broccoli-stew');
-
 module.exports = {
   name: require('./package').name,
 
@@ -24,17 +21,7 @@ module.exports = {
 
     this.testPeerDependency('ember-pouch');
     this.testPeerDependency('ember-simple-auth');
-  },
-
-  treeForVendor: function() {
-    return stew.find(path.join(path.dirname(require.resolve('pouchdb-authentication')), '..', 'dist'), {
-      destDir: 'pouchdb-authentication',
-      files: ['pouchdb.authentication.js']
-    });
-  },
-
-  included(app) {
-    app.import('vendor/pouchdb-authentication/pouchdb.authentication.js');
+    this.testPeerDependency('pouchdb-authentication');
   },
 
   isDevelopingAddon() {
