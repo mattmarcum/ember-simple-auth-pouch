@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
 import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';
+import { inject as service } from '@ember/service';
 
 PouchDB.plugin(auth);
 
@@ -27,6 +28,8 @@ function createDb() {
 }
 
 export default class ApplicationAdapter extends Adapter {
+  @service store;
+  
   constructor() {
     super(...arguments);
     this.db = createDb();
