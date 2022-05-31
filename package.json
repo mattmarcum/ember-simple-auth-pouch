@@ -77,7 +77,15 @@
   "ember": {
     "edition": "octane"
   },
+  "peerDependencies": {
+    "ember-pouch": ">=7.0.0",
+    "ember-simple-auth": ">=4.2.2",
+    "pouchdb-authentication": ">=1.1.3"
+  },
   "ember-addon": {
+    "after": [
+      "ember-pouch"
+    ],
     "configPath": "tests/dummy/config"
   }
 }
