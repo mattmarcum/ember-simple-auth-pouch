@@ -1,4 +1,4 @@
-import { Base } from 'ember-simple-auth/authenticators/base';
+import Base from 'ember-simple-auth/authenticators/base';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
 import { assert } from '@ember/debug';
