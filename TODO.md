@@ -1,8 +1,7 @@
 Research
 -loadup pouchdb
--set remote to /_users
+-set remote to /\_users
 -see what happens
-
 
 1. set up the user model
 2. set up the user adapter

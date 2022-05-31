@@ -1,13 +1,32 @@
+<<<<<<< HEAD
+
 # Ember Simple Auth Pouch
+
+=======
+
+# ember-simple-auth-pouch
+
+> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 This is Ember addon is an extension to the Ember Simple Auth library that provides a way to authenticate to a CouchDB server using pouchdb-authentication.
 
+<<<<<<< HEAD
 **Because user's credentials and tokens are exchanged between the
 Ember.js app and the server, you must use HTTPS for this connection!**
 
 ## Installation
 
-Ember Simple Auth Token can be installed with [Ember CLI](https://ember-cli.com/) by running:
+# Ember Simple Auth Token can be installed with [Ember CLI](https://ember-cli.com/) by running:
+
+## Compatibility
+
+- Ember.js v3.24 or above
+- Ember CLI v3.24 or above
+- Node.js v12 or above
+
+## Installation
+
+> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 ```
 ember install ember-simple-auth-pouch
@@ -15,16 +34,26 @@ ember install ember-simple-auth-pouch
 
 ## Setup
 
+<<<<<<< HEAD
+
 ### Authenticator
+
+=======
+
+## Usage
+
+> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 In order to use the pouch authenticator, the application should have a route for login. In most cases, the login route will display a form with a `username` and `password` field. On form submit, the `authenticate` action will be called on the `session`:
 
 ```js
 // app/router.js
-Router.map(function() {
+Router.map(function () {
   this.route('login');
 });
 ```
+
+<<<<<<< HEAD
 
 ```html
 {{! app/templates/login.hbs }}
@@ -43,7 +72,7 @@ Router.map(function() {
 ```js
 // app/controllers/login.js
 import Controller from '@ember/controller';
-import { action } from "@ember/object";
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class LoginController extends Controller {
@@ -54,11 +83,14 @@ export default class LoginController extends Controller {
     let identification = target.querySelector('#identification').value;
     let password = target.querySelector('#password').value;
     event.preventDefault();
-    this.session.authenticate('authenticator:pouch', identification, password).then(() => {
-      this.setProperties({identification: '', password: ''});
-    }).catch((reason) => {
-      this.errorMessage = reason.message || reason;
-    });
+    this.session
+      .authenticate('authenticator:pouch', identification, password)
+      .then(() => {
+        this.setProperties({ identification: '', password: '' });
+      })
+      .catch((reason) => {
+        this.errorMessage = reason.message || reason;
+      });
   }
 }
 ```
@@ -80,13 +112,21 @@ import Pouch from 'ember-simple-auth-pouch/authenticators/pouch';
 
 export default class PouchAuthenticator extends Pouch {
   getDb() {
-    let pouchAdapter = this.store.adapterFor('application');//getOwner(this).lookup(`adapter:${pouchAdapterName}`);
+    let pouchAdapter = this.store.adapterFor('application'); //getOwner(this).lookup(`adapter:${pouchAdapterName}`);
     return pouchAdapter.remoteDb;
   }
 }
 ```
 
-Authenticated routes
+# Authenticated routes
+
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+## License
+
+> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 ```js
 // app/routes/secret.js
@@ -187,12 +227,13 @@ Tom Dale's blog example using Ember CLI and ember-simple-auth-pouch: [broerse/em
 And of course thanks to all our wonderful contributors, [here](https://github.com/martinic/ember-simple-auth-pouch/graphs/contributors)! and especially [@mattmarcum](https://github.com/mattmarcum) for creating this addon.
 
 ## Changelog
-* **0.2.0** - Switch to import 'pouchdb-authentication' in App
-* **0.1.0** - Release v0.1.0
-* **0.1.0-beta.7** - no .db, but use getDb() everywhere
-* **0.1.0-beta.6** - use getDb()
-* **0.1.0-beta.5** - use ember-pouch 5.0.0-beta.2
-* **0.1.0-beta.4** - use response when restoring session
-* **0.1.0-beta.3** - Add peerDependencies
-* **0.1.0-beta.2** - Switch to ember-cli 2.7.0
-* **0.1.0-beta.1** - First Beta release
+
+- **0.2.0** - Switch to import 'pouchdb-authentication' in App
+- **0.1.0** - Release v0.1.0
+- **0.1.0-beta.7** - no .db, but use getDb() everywhere
+- **0.1.0-beta.6** - use getDb()
+- **0.1.0-beta.5** - use ember-pouch 5.0.0-beta.2
+- **0.1.0-beta.4** - use response when restoring session
+- **0.1.0-beta.3** - Add peerDependencies
+- **0.1.0-beta.2** - Switch to ember-cli 2.7.0
+- **0.1.0-beta.1** - First Beta release

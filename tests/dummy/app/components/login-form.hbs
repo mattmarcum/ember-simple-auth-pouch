@@ -1,0 +1,35 @@
+<hr />
+<p>login with pouch:</p>
+<form {{on "submit" this.authenticateWithPouch}}>
+  <div class="form-group">  
+    <label class='visually-hidden' for='identification'>Login</label>
+    <input
+      class='form-control'
+      id='identification'
+      placeholder='Username'
+      type='text'
+      name='username'
+      autocomplete='on'
+    />    
+  </div>
+  <div class="form-group">
+    <label class='visually-hidden' for='password'>Password</label>
+    <input
+      class='form-control'
+      id='password'
+      placeholder='Enter Password'
+      type='password'
+      name='password'
+      autocomplete='on'
+    />    
+  </div>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>
+{{#if this.errorMessage}}
+  <div class="alert alert-danger">
+    <p>
+      <strong>Login failed:</strong>
+      <code>{{this.errorMessage}}</code>
+    </p>
+  </div>
+{{/if}}

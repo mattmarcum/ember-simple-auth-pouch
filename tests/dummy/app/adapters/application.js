@@ -2,7 +2,7 @@ import { Adapter } from 'ember-pouch';
 import config from 'dummy/config/environment';
 import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
-import PouchDB from 'pouchdb';
+import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';
 
 PouchDB.plugin(auth);
@@ -19,16 +19,16 @@ function createDb() {
 
     db.sync(remoteDb, {
       live: true,
-      retry: true
+      retry: true,
     });
   }
 
   return db;
 }
 
-export default Adapter.extend({
-  init() {
-    this._super(...arguments);
-    this.set('db', createDb());
+export default class ApplicationAdapter extends Adapter {
+  constructor() {
+    super(...arguments);
+    this.db = createDb();
   }
-});
+}

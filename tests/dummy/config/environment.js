@@ -1,34 +1,34 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
-        // e.g. 'with-controller': true
+        // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      tasdf:true
+      tasdf: true,
     },
 
-    emberPouch:  {
+    emberPouch: {
       localDb: 'test',
       remoteDb: 'http://localhost:5984/test',
-      authHost: 'http://localhost:5984'
+      authHost: 'http://localhost:5984',
     },
-    tester: false
+    tester: false,
   };
 
   if (environment === 'development') {
