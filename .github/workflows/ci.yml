@@ -21,7 +21,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: npm
+          cache: |
+              if [ -e yarn.lock ]; then
+              yarn
+              elif [ -e package-lock.json ]; then
+              npm
+              else
+              npm
+              fi
       - name: Install Dependencies
         run: |
           if [ -e yarn.lock ]; then
@@ -45,7 +52,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: npm
+          cache: |
+              if [ -e yarn.lock ]; then
+              yarn
+              elif [ -e package-lock.json ]; then
+              npm
+              else
+              npm
+              fi
       - name: Install Dependencies
         run:  |
           if [ -e yarn.lock ]; then
@@ -56,7 +70,7 @@ jobs:
           npm install --no-shrinkwrap
           fi
       - name: Run Tests
-        run: npm run test:ember
+        run: yarn run test:ember
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
@@ -83,7 +97,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: npm
+          cache: |
+              if [ -e yarn.lock ]; then
+              yarn
+              elif [ -e package-lock.json ]; then
+              npm
+              else
+              npm
+              fi
       - name: Install Dependencies
         run: |
           if [ -e yarn.lock ]; then
