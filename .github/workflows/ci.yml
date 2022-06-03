@@ -21,23 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: |
-              if [ -e yarn.lock ]; then
-              yarn
-              elif [ -e package-lock.json ]; then
-              npm
-              else
-              npm
-              fi
+          cache: npm
       - name: Install Dependencies
-        run: |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
+        run: npm ci
       - name: Lint
         run: npm run lint
       - name: Run Tests
@@ -52,25 +38,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: |
-              if [ -e yarn.lock ]; then
-              yarn
-              elif [ -e package-lock.json ]; then
-              npm
-              else
-              npm
-              fi
+          cache: npm
       - name: Install Dependencies
-        run:  |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm install --no-shrinkwrap
-          else
-          npm install --no-shrinkwrap
-          fi
+        run: npm install --no-shrinkwrap
       - name: Run Tests
-        run: yarn run test:ember
+        run: npm run test:ember
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
@@ -97,22 +69,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 12.x
-          cache: |
-              if [ -e yarn.lock ]; then
-              yarn
-              elif [ -e package-lock.json ]; then
-              npm
-              else
-              npm
-              fi
+          cache: npm
       - name: Install Dependencies
-        run: |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
+        run: npm ci
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
