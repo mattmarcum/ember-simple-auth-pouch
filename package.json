@@ -49,7 +49,7 @@
     "ember-inflector": "^4.0.2",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
-    "ember-pouch": "git://github.com/segoja/ember-pouch.git#master",
+    "ember-pouch": "segoja/ember-pouch.git#master",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
     "ember-simple-auth": "^4.2.2",
