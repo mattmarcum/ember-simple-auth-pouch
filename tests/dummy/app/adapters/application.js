@@ -29,7 +29,7 @@ function createDb() {
 
 export default class ApplicationAdapter extends Adapter {
   @service store;
-  
+
   constructor() {
     super(...arguments);
     this.db = createDb();

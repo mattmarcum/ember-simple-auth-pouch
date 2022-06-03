@@ -3,42 +3,53 @@ language: node_js
 node_js:
   # we recommend testing addons with the same minimum supported node version as Ember CLI
   # so that your addon works for all apps
-  - '10'
+  - '12'
 
-sudo: false
-dist: trusty
+dist: xenial
 
 addons:
   chrome: stable
 
 cache:
-  directories:
-    - $HOME/.npm
-
+  yarn: true
+  
 env:
   global:
-    # See https://git.io/vdao3 for details.
+    # See https://github.com/ember-cli/ember-cli/blob/master/docs/build-concurrency.md for details.
     - JOBS=1
 
+branches:
+  only:
+    - master
+    # npm version tags
+    - /^v\d+\.\d+\.\d+/
+
 jobs:
-  fail_fast: true
+  fast_finish: false
   allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
 
   include:
     # runs linting and tests with current locked deps
-
+    # runs linting and tests with current locked deps
     - stage: 'Tests'
       name: 'Tests'
       script:
-        - npm run lint:hbs
-        - npm run lint:js
-        - npm test
+        - yarn lint
+        - yarn test:ember
+
+    - stage: 'Additional Tests'
+      name: 'Floating Dependencies'
+      install:
+        - yarn install --no-lockfile --non-interactive
+      script:
+        - yarn test:ember
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
-    - stage: 'Additional Tests'
-      env: EMBER_TRY_SCENARIO=ember-lts-3.24
+    - env: EMBER_TRY_SCENARIO=ember-lts-3.16
+    - env: EMBER_TRY_SCENARIO=ember-lts-3.24
     - env: EMBER_TRY_SCENARIO=ember-lts-3.28
     - env: EMBER_TRY_SCENARIO=ember-release
     - env: EMBER_TRY_SCENARIO=ember-beta
@@ -46,8 +57,8 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-classic
 
 before_install:
-  - npm config set spin false
-  - npm --version
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
