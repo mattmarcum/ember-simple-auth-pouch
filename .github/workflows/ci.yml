@@ -47,7 +47,14 @@ jobs:
           node-version: 12.x
           cache: npm
       - name: Install Dependencies
-        run: npm install --no-shrinkwrap
+        run:  |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm install --no-shrinkwrap
+          else
+          npm install --no-shrinkwrap
+          fi
       - name: Run Tests
         run: npm run test:ember
 
