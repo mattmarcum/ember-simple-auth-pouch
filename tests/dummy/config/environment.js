@@ -41,7 +41,7 @@ module.exports = function (environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.locationType = 'history';
+    ENV.locationType = 'none';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
