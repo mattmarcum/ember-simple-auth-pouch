@@ -1,16 +1,7 @@
-<<<<<<< HEAD
-
 # Ember Simple Auth Pouch
-
-=======
-
-# ember-simple-auth-pouch
-
-> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 This is Ember addon is an extension to the Ember Simple Auth library that provides a way to authenticate to a CouchDB server using pouchdb-authentication.
 
-<<<<<<< HEAD
 **Because user's credentials and tokens are exchanged between the
 Ember.js app and the server, you must use HTTPS for this connection!**
 
@@ -26,23 +17,13 @@ Ember.js app and the server, you must use HTTPS for this connection!**
 
 ## Installation
 
-> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
-
 ```
 ember install ember-simple-auth-pouch
 ```
 
 ## Setup
 
-<<<<<<< HEAD
-
 ### Authenticator
-
-=======
-
-## Usage
-
-> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 In order to use the pouch authenticator, the application should have a route for login. In most cases, the login route will display a form with a `username` and `password` field. On form submit, the `authenticate` action will be called on the `session`:
 
@@ -52,8 +33,6 @@ Router.map(function () {
   this.route('login');
 });
 ```
-
-<<<<<<< HEAD
 
 ```html
 {{! app/templates/login.hbs }}
@@ -126,7 +105,6 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 
 ## License
 
-> > > > > > > 1e5a051 (v3.4.3...v4.4.0)
 
 ```js
 // app/routes/secret.js
@@ -228,6 +206,9 @@ And of course thanks to all our wonderful contributors, [here](https://github.co
 
 ## Changelog
 
+- **0.3.0-beta.1**
+  - Switch to ember-pouch 8.0.0-beta.1
+  - Updated to support latest Ember 4.x
 - **0.2.0** - Switch to import 'pouchdb-authentication' in App
 - **0.1.0** - Release v0.1.0
 - **0.1.0-beta.7** - no .db, but use getDb() everywhere
